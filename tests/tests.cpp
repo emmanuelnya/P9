@@ -26,13 +26,13 @@ TEST(TransactionTest, CreationValide) {
     EXPECT_EQ(t.getDestinatario().getName(), "Cliente");
 }
 
-TEST(TransactionTest, MontantInvalide) {
+TEST(TransactionTest, ImportoInvalido) {
     destinatario d("Client", "IT0000000000");
     EXPECT_THROW(transaction(0, "uscita", "2025-03-01", d), std::invalid_argument);
     EXPECT_THROW(transaction(-50, "uscita", "2025-03-01", d), std::invalid_argument);
 }
 // COMPTEBANCAIRE_test
-TEST(CompteBancaireTest, AjoutEntrataEtUscita) {
+TEST(CompteBancaireTest, AggiuntoEntrataEtUscita) {
     comptebancaire compte;
     compte.addTransaction(100, "entrata", "2025-04-01", "Marco", "IT001");
     compte.addTransaction(30, "uscita", "2025-04-02", "Spesa", "IT002");
@@ -40,7 +40,7 @@ TEST(CompteBancaireTest, AjoutEntrataEtUscita) {
     EXPECT_EQ(compte.getNumeroTransazioni(), 2);
 }
 
-TEST(CompteBancaireTest, SaldoInsufficienteNonAjoute) {
+TEST(CompteBancaireTest, SaldoInsufficienteNonAggiunto) {
     comptebancaire compte;
     compte.addTransaction(50, "entrata", "2025-04-01", "Pag", "IT001");
     compte.addTransaction(100, "uscita", "2025-04-02", "Fail", "IT002"); // Trop élevé
@@ -48,7 +48,7 @@ TEST(CompteBancaireTest, SaldoInsufficienteNonAjoute) {
     EXPECT_EQ(compte.getNumeroTransazioni(), 1); // seulement l’entrée
 }
 
-TEST(CompteBancaireTest, SuppressionTransazione) {
+TEST(CompteBancaireTest, cancellaTransazione) {
     comptebancaire compte;
     compte.addTransaction(100, "entrata", "2025-04-01", "Marco", "IT001");
     compte.cancellaTransazione(0);
@@ -56,7 +56,7 @@ TEST(CompteBancaireTest, SuppressionTransazione) {
     EXPECT_DOUBLE_EQ(compte.getSolde(), 0);
 }
 
-TEST(CompteBancaireTest, ModificationTransazione) {
+TEST(CompteBancaireTest, ModificaTransazione) {
     comptebancaire compte;
     compte.addTransaction(200, "entrata", "2025-04-01", "Lavoro", "IT100");
     compte.addTransaction(100,"entrata","2025-04-02","SISAL");
@@ -69,10 +69,20 @@ TEST(CompteBancaireTest, ModificationTransazione) {
     EXPECT_DOUBLE_EQ(compte.getSolde(), 50);
 }
 
-TEST(CompteBancaireTest, RechercheParNom) {
+TEST(CompteBancaireTest, Ricercapernome) {
     comptebancaire compte;
     compte.addTransaction(100, "entrata", "2025-04-03", "Mario", "IT123");
-    int index = compte.cercaTransazione("Mario");
-    EXPECT_EQ(index, 0);
-    EXPECT_EQ(compte.getTransactionAt(index).getDestinatario().getName(), "Mario");
+    compte.addTransaction(25,"uscita","2025-04-02","Mario", "IT123");
+    compte.addTransaction(250,"entrata","2025-01-02","Mario", "IT123");
+    compte.addTransaction(200,"entrata","2025-04-02","Luigi", "IT852");
+std::stringstream buffer;
+    std::streambuf* old=std::cout.rdbuf(buffer.rdbuf());
+    compte.cercaTransazione("Mario");
+    std::cout.rdbuf(old);
+    std::string output = buffer.str();
+    EXPECT_NE(output.find("Mario"),std::string::npos);
+    EXPECT_NE(output.find("2025-04-03"),std::string::npos);
+    EXPECT_NE(output.find("2025-01-02"),std::string::npos);
+    EXPECT_NE(output.find("2025-04-02"),std::string::npos);
+    EXPECT_EQ(output.find("Luigi"),std::string::npos);
 }
