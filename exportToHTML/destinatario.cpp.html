@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>destinatario.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #bcbec4;}
+.s4 { color: #cf8e6d;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+destinatario.cpp</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&quot;destinatario.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&lt;cstdlib&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;sstream&gt;</span>
+
+<span class="s1">destinatario::destinatario</span><span class="s3">(</span><span class="s1">std::string n</span><span class="s3">, </span><span class="s1">std::string i</span><span class="s3">) </span><span class="s1">: name</span><span class="s3">(</span><span class="s1">std::move</span><span class="s3">(</span><span class="s1">n</span><span class="s3">)), </span><span class="s1">iban</span><span class="s3">(</span><span class="s1">std::move</span><span class="s3">(</span><span class="s1">i</span><span class="s3">)) {</span>
+    <span class="s1">Numtransaction </span><span class="s3">= </span><span class="s1">genererNumeroTransaction</span><span class="s3">();</span>
+<span class="s3">}</span>
+
+<span class="s1">destinatario::destinatario</span><span class="s3">(</span><span class="s4">const </span><span class="s1">std::string </span><span class="s3">&amp;</span><span class="s1">n</span><span class="s3">) </span><span class="s1">: name</span><span class="s3">(</span><span class="s1">n</span><span class="s3">), </span><span class="s1">iban</span><span class="s3">(</span><span class="s2">&quot;N/A&quot;</span><span class="s3">) {</span>
+    <span class="s1">Numtransaction </span><span class="s3">= </span><span class="s1">genererNumeroTransaction</span><span class="s3">();</span>
+<span class="s3">}</span>
+
+<span class="s1">std::string destinatario::getName</span><span class="s3">() </span><span class="s4">const </span><span class="s3">{</span><span class="s4">return </span><span class="s1">name</span><span class="s3">;}</span>
+
+<span class="s1">std::string destinatario::getIban</span><span class="s3">() </span><span class="s4">const </span><span class="s3">{</span><span class="s4">return </span><span class="s1">iban</span><span class="s3">;}</span>
+
+<span class="s1">std::string destinatario::getNumtransaction</span><span class="s3">() </span><span class="s4">const </span><span class="s3">{</span><span class="s4">return </span><span class="s1">Numtransaction</span><span class="s3">;}</span>
+
+<span class="s1">std::string destinatario::genererNumeroTransaction</span><span class="s3">() {</span><span class="s4">return </span><span class="s2">&quot;TX-&quot; </span><span class="s3">+ </span><span class="s1">std::to_string</span><span class="s3">(</span><span class="s1">rand</span><span class="s3">() % </span><span class="s5">1000000</span><span class="s3">);}</span>
+
+<span class="s1">std::string destinatario::toString</span><span class="s3">() </span><span class="s4">const </span><span class="s3">{</span><span class="s4">return </span><span class="s1">name </span><span class="s3">+ </span><span class="s2">&quot;,&quot; </span><span class="s3">+ </span><span class="s1">iban </span><span class="s3">+ </span><span class="s2">&quot;,&quot; </span><span class="s3">+ </span><span class="s1">Numtransaction</span><span class="s3">;}</span>
+
+<span class="s1">destinatario destinatario::fromString</span><span class="s3">(</span><span class="s4">const </span><span class="s1">std::string</span><span class="s3">&amp; </span><span class="s1">line</span><span class="s3">) {</span>
+    <span class="s1">std::stringstream ss</span><span class="s3">(</span><span class="s1">line</span><span class="s3">);</span>
+    <span class="s1">std::string name</span><span class="s3">, </span><span class="s1">iban</span><span class="s3">, </span><span class="s1">Numtransaction</span><span class="s3">;</span>
+    <span class="s1">getline</span><span class="s3">(</span><span class="s1">ss</span><span class="s3">, </span><span class="s1">name</span><span class="s3">, </span><span class="s2">','</span><span class="s3">);</span>
+    <span class="s1">getline</span><span class="s3">(</span><span class="s1">ss</span><span class="s3">, </span><span class="s1">iban</span><span class="s3">, </span><span class="s2">','</span><span class="s3">);</span>
+    <span class="s1">getline</span><span class="s3">(</span><span class="s1">ss</span><span class="s3">, </span><span class="s1">Numtransaction</span><span class="s3">, </span><span class="s2">','</span><span class="s3">);</span>
+    <span class="s4">return </span><span class="s1">destinatario</span><span class="s3">(</span><span class="s1">name</span><span class="s3">, </span><span class="s1">iban</span><span class="s3">);</span>
+<span class="s3">}</span>
+</pre>
+</body>
+</html>

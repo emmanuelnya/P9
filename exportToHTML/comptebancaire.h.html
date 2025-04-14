@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>comptebancaire.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+comptebancaire.h</font>
+</center></td></tr></table>
+<pre><span class="s0">#ifndef </span><span class="s1">COMPTEBANCAIRE_H</span>
+<span class="s0">#define </span><span class="s1">COMPTEBANCAIRE_H</span>
+
+<span class="s0">#include </span><span class="s2">&lt;vector&gt;</span>
+<span class="s0">#include </span><span class="s2">&quot;transaction.h&quot;</span>
+
+<span class="s3">class </span><span class="s1">comptebancaire </span><span class="s4">{</span>
+<span class="s3">private</span><span class="s1">:</span>
+    <span class="s3">double </span><span class="s1">solde</span><span class="s4">;</span>
+    <span class="s1">std::vector</span><span class="s4">&lt;</span><span class="s1">transaction</span><span class="s4">&gt; </span><span class="s1">transactions</span><span class="s4">;</span>
+
+<span class="s3">public</span><span class="s1">:</span>
+    <span class="s1">comptebancaire</span><span class="s4">();</span>
+
+    <span class="s3">void </span><span class="s1">addTransaction</span><span class="s4">(</span><span class="s3">double </span><span class="s1">montant</span><span class="s4">, </span><span class="s1">std::string type</span><span class="s4">, </span><span class="s1">std::string date</span><span class="s4">, </span><span class="s1">std::string destname </span><span class="s4">= </span><span class="s2">&quot;&quot;</span><span class="s4">, </span><span class="s1">std::string destiban </span><span class="s4">= </span><span class="s2">&quot;&quot;</span><span class="s4">);</span>
+    <span class="s3">void </span><span class="s1">addTransaction</span><span class="s4">(</span><span class="s3">const </span><span class="s1">transaction</span><span class="s4">&amp; </span><span class="s1">t</span><span class="s4">); </span><span class="s5">// surcharge</span>
+
+    <span class="s3">void </span><span class="s1">affichercompte</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+    <span class="s3">void </span><span class="s1">savefile</span><span class="s4">(</span><span class="s3">const </span><span class="s1">std::string</span><span class="s4">&amp; </span><span class="s1">filename</span><span class="s4">) </span><span class="s3">const</span><span class="s4">;</span>
+
+    <span class="s1">transaction getTransactionAt</span><span class="s4">(</span><span class="s1">size_t index</span><span class="s4">) </span><span class="s3">const</span><span class="s4">;</span>
+    <span class="s1">size_t getNumeroTransazioni</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+
+    <span class="s3">void </span><span class="s1">cancellaTransazione</span><span class="s4">(</span><span class="s1">size_t index</span><span class="s4">);</span>
+    <span class="s3">void </span><span class="s1">modificaTransazione</span><span class="s4">(</span><span class="s1">size_t index</span><span class="s4">, </span><span class="s3">const </span><span class="s1">transaction</span><span class="s4">&amp; </span><span class="s1">nuova</span><span class="s4">);</span>
+    <span class="s3">int </span><span class="s1">cercaTransazione</span><span class="s4">(</span><span class="s3">const </span><span class="s1">std::string</span><span class="s4">&amp; </span><span class="s1">nome</span><span class="s4">);</span>
+    <span class="s3">double </span><span class="s1">getSolde</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+<span class="s4">};</span>
+
+<span class="s0">#endif</span></pre>
+</body>
+</html>

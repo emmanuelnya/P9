@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>destinatario.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+destinatario.h</font>
+</center></td></tr></table>
+<pre><span class="s0">#ifndef </span><span class="s1">DESTINATARIO_H</span>
+<span class="s0">#define </span><span class="s1">DESTINATARIO_H</span>
+
+<span class="s0">#include </span><span class="s2">&lt;string&gt;</span>
+
+<span class="s3">class </span><span class="s1">destinatario </span><span class="s4">{</span>
+<span class="s3">private</span><span class="s1">:</span>
+    <span class="s1">std::string name</span><span class="s4">;</span>
+    <span class="s1">std::string iban</span><span class="s4">;</span>
+    <span class="s1">std::string Numtransaction</span><span class="s4">;</span>
+
+<span class="s3">public</span><span class="s1">:</span>
+    <span class="s1">destinatario</span><span class="s4">(</span><span class="s1">std::string n</span><span class="s4">, </span><span class="s1">std::string i</span><span class="s4">);</span>
+    <span class="s1">destinatario</span><span class="s4">(</span><span class="s3">const </span><span class="s1">std::string </span><span class="s4">&amp;</span><span class="s1">n</span><span class="s4">);</span>
+
+    <span class="s1">std::string getName</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+    <span class="s1">std::string getIban</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+    <span class="s1">std::string getNumtransaction</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+
+    <span class="s3">static </span><span class="s1">std::string genererNumeroTransaction</span><span class="s4">();</span>
+    <span class="s1">std::string toString</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+    <span class="s3">static </span><span class="s1">destinatario fromString</span><span class="s4">(</span><span class="s3">const </span><span class="s1">std::string</span><span class="s4">&amp; </span><span class="s1">line</span><span class="s4">);</span>
+<span class="s4">};</span>
+
+<span class="s0">#endif </span><span class="s5">// DESTINATARIO_H</span>
+</pre>
+</body>
+</html>

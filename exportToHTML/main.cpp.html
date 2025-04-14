@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>main.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #2aacb8;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.cpp</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&lt;iostream&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;ctime&gt;</span>
+<span class="s0">#include </span><span class="s2">&quot;comptebancaire.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&quot;destinatario.h&quot;</span>
+
+<span class="s3">int </span><span class="s1">main</span><span class="s4">() {</span>
+    <span class="s1">srand</span><span class="s4">(</span><span class="s1">time</span><span class="s4">(</span><span class="s5">0</span><span class="s4">)); </span><span class="s6">// Initialise le générateur de nombres aléatoires</span>
+
+    <span class="s1">comptebancaire compte</span><span class="s4">;</span>
+    <span class="s1">compte</span><span class="s4">.</span><span class="s1">addTransaction</span><span class="s4">(</span><span class="s5">1500</span><span class="s4">, </span><span class="s2">&quot;entrata&quot;</span><span class="s4">, </span><span class="s2">&quot;2025-03-25&quot;</span><span class="s4">, </span><span class="s2">&quot;stipendio&quot;</span><span class="s4">);</span>
+    <span class="s1">compte</span><span class="s4">.</span><span class="s1">addTransaction</span><span class="s4">(</span><span class="s5">300</span><span class="s4">, </span><span class="s2">&quot;uscita&quot;</span><span class="s4">, </span><span class="s2">&quot;2025-03-30&quot;</span><span class="s4">, </span><span class="s2">&quot;Andrea Fabrizio&quot;</span><span class="s4">, </span><span class="s2">&quot;IT13K1523654780000001236547&quot;</span><span class="s4">);</span>
+    <span class="s1">compte</span><span class="s4">.</span><span class="s1">addTransaction</span><span class="s4">(</span><span class="s5">1000</span><span class="s4">, </span><span class="s2">&quot;entrata&quot;</span><span class="s4">, </span><span class="s2">&quot;2025-04-01&quot;</span><span class="s4">, </span><span class="s2">&quot;DEMIAN CANT&quot;</span><span class="s4">);</span>
+    <span class="s1">compte</span><span class="s4">.</span><span class="s1">addTransaction</span><span class="s4">(</span><span class="s5">25</span><span class="s4">, </span><span class="s2">&quot;uscita&quot;</span><span class="s4">, </span><span class="s2">&quot;2025-04-02&quot;</span><span class="s4">, </span><span class="s2">&quot;CONAD CITY-VIA DALMAZIA&quot;</span><span class="s4">);</span>
+    <span class="s1">compte</span><span class="s4">.</span><span class="s1">affichercompte</span><span class="s4">();</span>
+
+    <span class="s3">return </span><span class="s5">0</span><span class="s4">;</span>
+<span class="s4">}</span>
+</pre>
+</body>
+</html>

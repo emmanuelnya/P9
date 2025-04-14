@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>comptebancaire.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #bcbec4;}
+.s4 { color: #2aacb8;}
+.s5 { color: #cf8e6d;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+comptebancaire.cpp</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&quot;comptebancaire.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&lt;iostream&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;fstream&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;stdexcept&gt;</span>
+
+<span class="s0">#include </span><span class="s2">&quot;destinatario.h&quot;</span>
+
+<span class="s1">comptebancaire::comptebancaire</span><span class="s3">() </span><span class="s1">: solde</span><span class="s3">(</span><span class="s4">0.0</span><span class="s3">) {}</span>
+
+<span class="s5">void </span><span class="s1">comptebancaire::addTransaction</span><span class="s3">(</span><span class="s5">double </span><span class="s1">montant</span><span class="s3">, </span><span class="s1">std::string type</span><span class="s3">, </span><span class="s1">std::string date</span><span class="s3">, </span><span class="s1">std::string destname</span><span class="s3">, </span><span class="s1">std::string destiban</span><span class="s3">) {</span>
+    <span class="s5">try</span><span class="s3">{</span>
+        <span class="s1">transaction t</span><span class="s3">(</span><span class="s1">montant</span><span class="s3">, </span><span class="s1">type</span><span class="s3">, </span><span class="s1">date</span><span class="s3">, </span><span class="s1">destinatario</span><span class="s3">(</span><span class="s1">destname</span><span class="s3">, </span><span class="s1">destiban</span><span class="s3">));</span>
+        <span class="s1">addTransaction</span><span class="s3">(</span><span class="s1">t</span><span class="s3">); </span><span class="s6">// appel de la version surchargée</span>
+    <span class="s3">}</span><span class="s5">catch </span><span class="s3">(</span><span class="s5">const </span><span class="s1">std::exception</span><span class="s3">&amp; </span><span class="s1">e</span><span class="s3">) {</span>
+        <span class="s1">std::cerr</span><span class="s3">&lt;&lt;</span><span class="s2">&quot;Errore durante la creazione della transazione&quot;</span><span class="s3">&lt;&lt; </span><span class="s1">e</span><span class="s3">.</span><span class="s1">what</span><span class="s3">()&lt;&lt;</span><span class="s1">std::endl</span><span class="s3">;</span>
+    <span class="s3">}</span>
+<span class="s3">}</span>
+
+
+<span class="s5">void </span><span class="s1">comptebancaire::addTransaction</span><span class="s3">(</span><span class="s5">const </span><span class="s1">transaction</span><span class="s3">&amp; </span><span class="s1">t</span><span class="s3">) {</span>
+    <span class="s5">try </span><span class="s3">{</span>
+        <span class="s5">if </span><span class="s3">(</span><span class="s1">t</span><span class="s3">.</span><span class="s1">getType</span><span class="s3">() == </span><span class="s2">&quot;uscita&quot; </span><span class="s3">&amp;&amp; </span><span class="s1">t</span><span class="s3">.</span><span class="s1">getMontant</span><span class="s3">() &gt; </span><span class="s1">solde</span><span class="s3">) {</span>
+            <span class="s5">throw </span><span class="s1">std::invalid_argument</span><span class="s3">(</span><span class="s2">&quot;Fondi insufficienti.&quot;</span><span class="s3">);</span>
+        <span class="s3">}</span>
+        <span class="s1">transactions</span><span class="s3">.</span><span class="s1">push_back</span><span class="s3">(</span><span class="s1">t</span><span class="s3">);</span>
+        <span class="s1">solde </span><span class="s3">+= (</span><span class="s1">t</span><span class="s3">.</span><span class="s1">getType</span><span class="s3">() == </span><span class="s2">&quot;entrata&quot;</span><span class="s3">) </span><span class="s1">? t</span><span class="s3">.</span><span class="s1">getMontant</span><span class="s3">() </span><span class="s1">: </span><span class="s3">-</span><span class="s1">t</span><span class="s3">.</span><span class="s1">getMontant</span><span class="s3">();</span>
+    <span class="s3">}</span><span class="s5">catch </span><span class="s3">(</span><span class="s5">const </span><span class="s1">std::exception</span><span class="s3">&amp; </span><span class="s1">e</span><span class="s3">) {</span>
+        <span class="s1">std::cerr</span><span class="s3">&lt;&lt;</span><span class="s2">&quot;Errore durante l'aggiunta della transazione&quot;</span><span class="s3">&lt;&lt; </span><span class="s1">e</span><span class="s3">.</span><span class="s1">what</span><span class="s3">()&lt;&lt;</span><span class="s1">std::endl</span><span class="s3">;</span>
+    <span class="s3">}</span>
+<span class="s3">}</span>
+
+<span class="s5">void </span><span class="s1">comptebancaire::affichercompte</span><span class="s3">() </span><span class="s5">const </span><span class="s3">{</span>
+    <span class="s1">std::cout </span><span class="s3">&lt;&lt; </span><span class="s2">&quot;💼 Solde attuale: &quot; </span><span class="s3">&lt;&lt; </span><span class="s1">solde </span><span class="s3">&lt;&lt; </span><span class="s2">&quot; EUR</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s3">;</span>
+    <span class="s5">for </span><span class="s3">(</span><span class="s5">const auto</span><span class="s3">&amp; </span><span class="s1">t : transactions</span><span class="s3">) {</span>
+        <span class="s1">std::cout </span><span class="s3">&lt;&lt; </span><span class="s1">t</span><span class="s3">.</span><span class="s1">toString</span><span class="s3">() &lt;&lt; </span><span class="s1">std::endl</span><span class="s3">;</span>
+    <span class="s3">}</span>
+<span class="s3">}</span>
+
+<span class="s5">void </span><span class="s1">comptebancaire::savefile</span><span class="s3">(</span><span class="s5">const </span><span class="s1">std::string</span><span class="s3">&amp; </span><span class="s1">filename</span><span class="s3">) </span><span class="s5">const </span><span class="s3">{</span>
+    <span class="s1">std::ofstream file</span><span class="s3">(</span><span class="s1">filename</span><span class="s3">);</span>
+    <span class="s5">if </span><span class="s3">(!</span><span class="s1">file</span><span class="s3">) {</span>
+        <span class="s1">std::cerr </span><span class="s3">&lt;&lt; </span><span class="s2">&quot;Errore: impossibile aprire il file.&quot; </span><span class="s3">&lt;&lt; </span><span class="s1">std::endl</span><span class="s3">;</span>
+        <span class="s5">return</span><span class="s3">;</span>
+    <span class="s3">}</span>
+
+    <span class="s5">for </span><span class="s3">(</span><span class="s5">const auto</span><span class="s3">&amp; </span><span class="s1">t : transactions</span><span class="s3">) {</span>
+        <span class="s1">file </span><span class="s3">&lt;&lt; </span><span class="s1">t</span><span class="s3">.</span><span class="s1">toString</span><span class="s3">() &lt;&lt; </span><span class="s1">std::endl</span><span class="s3">;</span>
+    <span class="s3">}</span>
+<span class="s3">}</span>
+
+<span class="s1">transaction comptebancaire::getTransactionAt</span><span class="s3">(</span><span class="s1">size_t index</span><span class="s3">) </span><span class="s5">const </span><span class="s3">{</span>
+    <span class="s5">if </span><span class="s3">(</span><span class="s1">index </span><span class="s3">&gt;= </span><span class="s1">transactions</span><span class="s3">.</span><span class="s1">size</span><span class="s3">()) {</span>
+        <span class="s5">throw </span><span class="s1">std::out_of_range</span><span class="s3">(</span><span class="s2">&quot;Indice fuori intervallo.&quot;</span><span class="s3">);</span>
+    <span class="s3">}</span>
+    <span class="s5">return </span><span class="s1">transactions</span><span class="s3">[</span><span class="s1">index</span><span class="s3">];</span>
+<span class="s3">}</span>
+
+<span class="s1">size_t comptebancaire::getNumeroTransazioni</span><span class="s3">() </span><span class="s5">const </span><span class="s3">{</span>
+    <span class="s5">return </span><span class="s1">transactions</span><span class="s3">.</span><span class="s1">size</span><span class="s3">();</span>
+<span class="s3">}</span>
+
+<span class="s5">void </span><span class="s1">comptebancaire::cancellaTransazione</span><span class="s3">(</span><span class="s1">size_t index</span><span class="s3">) {</span>
+    <span class="s5">if </span><span class="s3">(</span><span class="s1">index </span><span class="s3">&gt;= </span><span class="s1">transactions</span><span class="s3">.</span><span class="s1">size</span><span class="s3">()) {</span>
+        <span class="s5">throw </span><span class="s1">std::out_of_range</span><span class="s3">(</span><span class="s2">&quot;Indice non valido.&quot;</span><span class="s3">);</span>
+    <span class="s3">}</span>
+
+    <span class="s5">double </span><span class="s1">montant </span><span class="s3">= </span><span class="s1">transactions</span><span class="s3">[</span><span class="s1">index</span><span class="s3">].</span><span class="s1">getMontant</span><span class="s3">();</span>
+    <span class="s1">solde </span><span class="s3">-= (</span><span class="s1">transactions</span><span class="s3">[</span><span class="s1">index</span><span class="s3">].</span><span class="s1">getType</span><span class="s3">() == </span><span class="s2">&quot;entrata&quot;</span><span class="s3">) </span><span class="s1">? montant : </span><span class="s3">-</span><span class="s1">montant</span><span class="s3">;</span>
+    <span class="s1">transactions</span><span class="s3">.</span><span class="s1">erase</span><span class="s3">(</span><span class="s1">transactions</span><span class="s3">.</span><span class="s1">begin</span><span class="s3">() + </span><span class="s1">index</span><span class="s3">);</span>
+<span class="s3">}</span>
+
+<span class="s5">void </span><span class="s1">comptebancaire::modificaTransazione</span><span class="s3">(</span><span class="s1">size_t index</span><span class="s3">, </span><span class="s5">const </span><span class="s1">transaction</span><span class="s3">&amp; </span><span class="s1">nuova</span><span class="s3">) {</span>
+    <span class="s1">cancellaTransazione</span><span class="s3">(</span><span class="s1">index</span><span class="s3">);</span>
+    <span class="s1">addTransaction</span><span class="s3">(</span><span class="s1">nuova</span><span class="s3">);</span>
+<span class="s3">}</span>
+
+<span class="s5">int </span><span class="s1">comptebancaire::cercaTransazione</span><span class="s3">(</span><span class="s5">const </span><span class="s1">std::string</span><span class="s3">&amp; </span><span class="s1">nome</span><span class="s3">) {</span>
+    <span class="s5">for </span><span class="s3">(</span><span class="s1">size_t i </span><span class="s3">= </span><span class="s4">0</span><span class="s3">; </span><span class="s1">i </span><span class="s3">&lt; </span><span class="s1">transactions</span><span class="s3">.</span><span class="s1">size</span><span class="s3">(); ++</span><span class="s1">i</span><span class="s3">) {</span>
+        <span class="s5">if </span><span class="s3">(</span><span class="s1">transactions</span><span class="s3">[</span><span class="s1">i</span><span class="s3">].</span><span class="s1">getDestinatario</span><span class="s3">().</span><span class="s1">getName</span><span class="s3">() == </span><span class="s1">nome</span><span class="s3">) {</span>
+            <span class="s5">return static_cast</span><span class="s3">&lt;</span><span class="s5">int</span><span class="s3">&gt;(</span><span class="s1">i</span><span class="s3">);</span>
+        <span class="s3">}</span>
+    <span class="s3">}</span>
+    <span class="s5">return </span><span class="s3">-</span><span class="s4">1</span><span class="s3">;</span>
+<span class="s3">}</span>
+
+<span class="s5">double </span><span class="s1">comptebancaire::getSolde</span><span class="s3">() </span><span class="s5">const </span><span class="s3">{</span>
+    <span class="s5">return </span><span class="s1">solde</span><span class="s3">;</span>
+<span class="s3">}</span></pre>
+</body>
+</html>
