@@ -18,12 +18,12 @@ TEST(DestinataireTest, CreationSansIban) {
 
 // TRANSACTION_test
 TEST(TransactionTest, CreationValide) {
-    destinatario d("Client", "IT9876543210");
+    destinatario d("Cliente", "IT9876543210");
     transaction t(150, "entrata", "2025-03-01", d);
     EXPECT_EQ(t.getMontant(), 150);
     EXPECT_EQ(t.getType(), "entrata");
-    EXPECT_EQ(t.getDate(), "2024-03-01");
-    EXPECT_EQ(t.getDestinatario().getName(), "Client");
+    EXPECT_EQ(t.getDate(), "2025-03-01");
+    EXPECT_EQ(t.getDestinatario().getName(), "Cliente");
 }
 
 TEST(TransactionTest, MontantInvalide) {
@@ -71,7 +71,7 @@ TEST(CompteBancaireTest, ModificationTransazione) {
 
 TEST(CompteBancaireTest, RechercheParNom) {
     comptebancaire compte;
-    compte.addTransaction(100, "entrata", "2024-04-03", "Mario", "IT123");
+    compte.addTransaction(100, "entrata", "2025-04-03", "Mario", "IT123");
     int index = compte.cercaTransazione("Mario");
     EXPECT_EQ(index, 0);
     EXPECT_EQ(compte.getTransactionAt(index).getDestinatario().getName(), "Mario");
