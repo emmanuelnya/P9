@@ -63,9 +63,8 @@ void comptebancaire::cancellaTransazione(size_t index) {
     if (index >= transactions.size()) {
         throw std::out_of_range("Indice non valido.");
     }
-
-    double montant = transactions[index].getMontant();
-    solde -= (transactions[index].getType() == "entrata") ? montant : -montant;
+    const transaction& t= transactions[index];
+    solde-=(t.getType()=="entrata") ? t.getMontant() : -t.getMontant();
     transactions.erase(transactions.begin() + index);
 }
 
