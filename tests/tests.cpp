@@ -51,9 +51,12 @@ TEST(CompteBancaireTest, SaldoInsufficienteNonAggiunto) {
 TEST(CompteBancaireTest, cancellaTransazione) {
     comptebancaire compte;
     compte.addTransaction(100, "entrata", "2025-04-01", "Marco", "IT001");
+    EXPECT_EQ(compte.getNumeroTransazioni(), 1);
+    EXPECT_DOUBLE_EQ(compte.getSolde(), 100);
     compte.cancellaTransazione(0);
     EXPECT_EQ(compte.getNumeroTransazioni(), 0);
     EXPECT_DOUBLE_EQ(compte.getSolde(), 0);
+    EXPECT_THROW(compte.cancellaTransazione(0),std::out_of_range);
 }
 
 TEST(CompteBancaireTest, ModificaTransazione) {
