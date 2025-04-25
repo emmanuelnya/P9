@@ -73,23 +73,15 @@ void comptebancaire::modificaTransazione(size_t index, const transaction& nuova)
     addTransaction(nuova);
 }
 
-void comptebancaire::cercaTransazione(const std::string& nome)const {
-    bool trovato = false;
-    std::cout<< "risultato per nome: " << nome << std::endl;
+std::vector<transaction> comptebancaire::cercaTransazione(const std::string& nome)const {
+    //
+    std::vector<transaction> result;
     for (const auto& t : transactions) {
         if (t.getDestinatario().getName() == nome) {
-            trovato=true;
-            std::cout << "Date:"<<t.getDate()
-                      << " | type:"<<t.getType()
-                      <<" | Montant:"<<t.getMontant()
-                       << "| IBAN:"<<t.getDestinatario().getIban()
-            <<"| Numero di transazione: "<<t.getDestinatario().getNumtransaction()
-            <<std::endl;
+            result.push_back(t);
         }
     }
-    if (!trovato) {
-        std::cout<<"nessun transazione trovata."<<std::endl;
-    }
+    return result;
 }
 
 double comptebancaire::getSolde() const {

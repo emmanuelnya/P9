@@ -23,7 +23,7 @@ public:
 
     void cancellaTransazione(size_t index);
     void modificaTransazione(size_t index, const transaction& nuova);
-    void cercaTransazione(const std::string &nome) const;
+    std::vector<transaction> cercaTransazione(const std::string& nome) const;
     double getSolde() const;
 };
 
