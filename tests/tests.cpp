@@ -31,6 +31,19 @@ TEST(TransactionTest, ImportoInvalido) {
     EXPECT_THROW(transaction(0, "uscita", "2025-03-01", d), std::invalid_argument);
     EXPECT_THROW(transaction(-50, "uscita", "2025-03-01", d), std::invalid_argument);
 }
+TEST(TransactionTest, Lanciaeccezioneperimportononvalido) {
+    EXPECT_THROW(transaction(0, "entrata","2025-02-05", destinatario("Error")), std::invalid_argument);
+    EXPECT_THROW(transaction(-100,"uscita","2505-03-06", destinatario("Error")),std::invalid_argument);
+}
+TEST(TransactionTest, toStringTest) {
+    destinatario d("Marco", "IT001");
+    transaction t(150, "entrata", "2025-04-01", d);
+    std::string output = t.toString();
+    EXPECT_NE(output.find("Marco"), std::string::npos);
+    EXPECT_NE(output.find("IT001"), std::string::npos);
+    EXPECT_NE(output.find("2025-04-01"), std::string::npos);
+    EXPECT_NE(output.find("+150"), std::string::npos);
+}
 // COMPTEBANCAIRE_test
 TEST(CompteBancaireTest, AggiuntoEntrataEtUscita) {
     comptebancaire compte;
@@ -78,14 +91,10 @@ TEST(CompteBancaireTest, Ricercapernome) {
     compte.addTransaction(25,"uscita","2025-04-02","Mario", "IT123");
     compte.addTransaction(250,"entrata","2025-01-02","Mario", "IT123");
     compte.addTransaction(200,"entrata","2025-04-02","Luigi", "IT852");
-std::stringstream buffer;
-    std::streambuf* old=std::cout.rdbuf(buffer.rdbuf());
-    compte.cercaTransazione("Mario");
-    std::cout.rdbuf(old);
-    std::string output = buffer.str();
-    EXPECT_NE(output.find("Mario"),std::string::npos);
-    EXPECT_NE(output.find("2025-04-03"),std::string::npos);
-    EXPECT_NE(output.find("2025-01-02"),std::string::npos);
-    EXPECT_NE(output.find("2025-04-02"),std::string::npos);
-    EXPECT_EQ(output.find("Luigi"),std::string::npos);
+    std::vector<transaction> result =compte.cercaTransazione("Mario");
+    EXPECT_EQ(result.size(), 3);
+    EXPECT_EQ(result[0].getDestinatario().getName(), "Mario");
+    std::vector<transaction> empty=compte.cercaTransazione("NESSUN NOME TROVATO");
+    EXPECT_TRUE(empty.empty());
+
 }
